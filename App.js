@@ -1,117 +1,5 @@
 import React, { useState } from 'react';
-import { View, Text, Image, ScrollView, TextInput, Button, Pressable, StyleSheet, StatusBar, Alert } from 'react-native';
-import { roundToNearestPixel } from 'react-native/Libraries/Utilities/PixelRatio';
-/*
-const App = () => {
-    const [randomNumber, setRandomNumber] = useState(1); // This patern is terrible!
-    const [inputText, setInputText] = useState('');
-    const [pressText, setPressText] = useState('');
-
-    return (
-        <ScrollView>
-            <View>
-                <Text>Hello World!</Text>
-            </View>
-
-            <View>
-                <TextInput 
-                placeholder='Digite o nome do dog'
-                style={{
-                    borderColor: 'white',
-                    borderWidth: 1,
-                }}
-                onChangeText={newText => setInputText(newText)}
-                />
-                <Button 
-                    title='Hello?'
-                    color='green'
-                    onPress={() => { setRandomNumber(randomNumber + 1) }}
-                />
-                <Text>{randomNumber}</Text>
-                <Text>{inputText}</Text>
-            </View>
-            <Dog name="Jorge" />
-            <UserViewComponent/>
-            
-            <View style={{paddingTop: 30}}>
-                <Pressable 
-                    onLongPress={() => setPressText('REALEASE ME YOU BITCH!!!!!!!')} 
-                    onPressOut={() => {setPressText('thanks... thats better')}}> 
-                        <Text>Press me!</Text>
-                        <Text>{pressText}</Text>
-                </Pressable>
-            </View>
-        </ScrollView>
-    );
-};
-*/
-
-/*
-const GameTitle = () => {
-    return (
-        <View>
-            <Text style={{
-                textAlign: 'center',
-                paddingTop: '10%',
-            }}>
-                Wordle! But in react this time
-            </Text>
-        </View> 
-    );
-};
-
-const LetterBox = (props) => {
-    return (
-        <View style={{
-            borderColor: props.color,
-            borderWidth: 2,
-            padding: 15,
-        }}>
-            <Text>a</Text>
-        </View>
-    );
-};
-
-const LetterBoxRow = (props) => {
-
-    return (
-        <View>
-            <View style={{
-                flexDirection: 'row',
-                paddingTop: '10%',
-                paddingLeft: 20,
-                paddingRight: 20,
-                justifyContent: 'space-around'
-            }}>
-
-                <LetterBox color={props.squareColor}/>
-                <LetterBox color={props.squareColor}/>
-                <LetterBox color={props.squareColor}/>
-                <LetterBox color={props.squareColor}/>
-                <LetterBox color={props.squareColor}/>
-            </View>
-        </View>
-    );
-};
-
-const App = () => {
-    const [squareColor, setSquareColor] = useState('white');
-    const [textInputValue, setTextInputValue] = useState('');
-    return (
-        <ScrollView style={{backgroundColor: '#383b39'}}>
-            <GameTitle />
-            <LetterBoxRow squareColor={squareColor}/>
-            <LetterBoxRow />
-            <LetterBoxRow />
-            <LetterBoxRow />
-            <LetterBoxRow />
-            <TextInput onChange={value => setTextInputValue(value)} placeholder='Digite a palavra' style={{backgroundColor: 'white', paddingTop: 10}} />
-            <Text style={{color: 'white'}}>{textInputValue}</Text>
-        </ScrollView>
-    );
-
-};
-*/
+import { View, Text, ScrollView, TextInput, Button, Pressable, StyleSheet, Alert } from 'react-native';
 
 const WORD_LEN = 5;
 
@@ -123,32 +11,19 @@ var chosenWord = words[Math.floor(Math.random() * words.length)].toUpperCase();
 var gameRound = 0;
 var showRetry = false;
 
-// Returns: 0 = Win | 1 = Lose | 2 = pass
-/*
-function makePlay(word) {
-
-    if (word == chosenWord){
-        gameRound = 0;
-        return 0;
-    }else{
-        if(gameRound != 5){
-            gameRound++;
-            return 2;
-        }else
-            return 1 
-    }
-}
-*/
-
 const LetterBox = (props) => {
 
     if (props.letterBoxStyle != undefined){
         return(
-            <Text style={props.letterBoxStyle}>{props.letter}</Text>
+            <View style={props.letterBoxStyle}>
+                <Text style={styles.gameLetterBoxText}>{props.letter}</Text>
+            </View>
         );
     } else {
         return(
-            <Text style={styles.gameLetterBoxDefault}>{props.letter}</Text>
+            <View style={styles.gameLetterBoxDefault}>
+                <Text style={styles.gameLetterBoxText}>{props.letter}</Text>
+            </View>
         );
     }
     
@@ -225,17 +100,19 @@ const App = () => {
                 <LetterRow word={row4}/>
                 <LetterRow word={row5}/>
                 <LetterRow word={row6}/>
+                <View style={styles.gameTextInputView}>
+                    <TextInput 
+                        placeholder='Type Here'
+                        style={styles.gameTextInput}
+                        value={textInputValue}
+                        onChangeText={newText => setTextInputValue(newText.toUpperCase())}
+                        maxLength={5}
+                        clearButtonMode='always'
+                    />
+                </View>
+            </View>
 
-                <TextInput 
-                    placeholder='Type Here'
-                    style={{
-                        backgroundColor: 'white',
-                        marginTop: 15,
-                    }}
-                    onChangeText={newText => setTextInputValue(newText.toUpperCase())}
-                    maxLength={5}
-                />
-
+            <View style={styles.gameIoArea}>
                 <Button 
                     color={'green'} 
                     title='Submit'
@@ -283,7 +160,10 @@ const App = () => {
                                 gameRound++;
                             }
                         }
+
+                        setTextInputValue('');
                     }}
+                    style={{width: 20, paddingLeft: 20}}
                 />
 
                 {showRetry &&
@@ -309,6 +189,7 @@ const App = () => {
                     onPress={() => { Alert.alert(chosenWord) }}
                 />
             </View>
+            
         </ScrollView>
     );
 
@@ -330,8 +211,27 @@ const styles = StyleSheet.create({
 
     },
 
+    gameTextInput: {
+        backgroundColor: 'white',
+        marginTop: 15,
+        color: 'black',
+        textAlign: 'center'
+    },
+
+    gameTextInputView: {
+        paddingRight: '10%',
+        paddingLeft: '10%',
+    },
+
     gameArea: {
         alignContent: 'space-between'
+    },
+
+    gameIoArea: {
+        alignContent: 'space-between', 
+        paddingLeft:90, 
+        paddingRight: 90,
+        paddingTop: 10
     },
 
     gameLetterRow: {
@@ -344,8 +244,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: 'black',
-        paddingLeft: 20,
-        paddingRight: 20,
+        width: 50,
+        height: 45,
         fontSize: 30,
     },
 
@@ -353,8 +253,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: '#d17d0f',
-        paddingLeft: 20,
-        paddingRight: 20,
+        width: 50,
+        height: 45,
         fontSize: 30,
     },
 
@@ -362,8 +262,15 @@ const styles = StyleSheet.create({
         color: 'white',
         fontWeight: 'bold',
         backgroundColor: '#3ec423',
-        paddingLeft: 20,
-        paddingRight: 20,
+        width: 50,
+        height: 45,
+        fontSize: 30,
+    },
+
+    gameLetterBoxText: {
+        color: 'white',
+        fontWeight: 'bold',
+        textAlign: 'center',
         fontSize: 30,
     },
 });

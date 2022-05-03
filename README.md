@@ -1,2 +1,2 @@
-# HelloWordle
-A *REALLY* simple wordle implemantation using React Native
+# Hello Wordle!
+A *REALLY* simple Wordle implemantation using React Native.
