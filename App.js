@@ -146,7 +146,7 @@ const App = () => {
                                     break;
 
                                 case 5:
-                                    setRow6(textInputValue);
+                                    setRow6(textInputValue.toUpperCase());
                                     break;
                             }
 
