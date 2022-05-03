@@ -105,7 +105,7 @@ const App = () => {
                         placeholder='Type Here'
                         style={styles.gameTextInput}
                         value={textInputValue}
-                        onChangeText={newText => setTextInputValue(newText.toUpperCase())}
+                        onChangeText={newText => setTextInputValue(newText)}
                         maxLength={5}
                         clearButtonMode='always'
                     />
@@ -126,23 +126,23 @@ const App = () => {
 
                             switch (gameRound){
                                 case 0:
-                                    setRow1(textInputValue);
+                                    setRow1(textInputValue.toUpperCase());
                                     break;
                                     
                                 case 1:
-                                    setRow2(textInputValue);
+                                    setRow2(textInputValue.toUpperCase());
                                     break;
                                     
                                 case 2:
-                                    setRow3(textInputValue);
+                                    setRow3(textInputValue.toUpperCase());
                                     break;
         
                                 case 3:
-                                    setRow4(textInputValue);
+                                    setRow4(textInputValue.toUpperCase());
                                     break;
         
                                 case 4:
-                                    setRow5(textInputValue);
+                                    setRow5(textInputValue.toUpperCase());
                                     break;
 
                                 case 5:
@@ -150,7 +150,7 @@ const App = () => {
                                     break;
                             }
 
-                            if (textInputValue == chosenWord){
+                            if (textInputValue.toUpperCase() == chosenWord){
                                 Alert.alert('You win!');
                                 showRetry = true;
                             } else if (gameRound == 5){
